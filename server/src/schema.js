@@ -30,8 +30,8 @@ const typeDefs = gql`
     createTask(projectID: String! , summary: String! , description: String! , priority: String! , status: String!): Task!
     editTask(projectID: String! , summary: String! , description: String! , priority: String! , status: String! , id: ID!): Task!
     editProject(name: String!, user: String!, id: ID!): Project!
-    deleteTask(id: ID!): Task!
-    deleteProject( id: ID!): Project!
+    deleteTask(id: ID!): Task
+    deleteProject( id: ID!): Project
   }
 `;
 

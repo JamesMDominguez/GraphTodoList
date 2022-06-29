@@ -42,6 +42,17 @@ export default function EditThisTask(props) {
       }
     }
   `;
+
+  const DELETE_TASK = gql`
+    mutation Mutation($deleteTaskId: ID!) {
+      deleteTask(id: $deleteTaskId) {
+        description
+        priority
+        status
+      }
+    }
+  `;
+
   const PROJECTS = gql`
     query GetProjects($getProjectId: ID!) {
       getProject(id: $getProjectId) {
@@ -55,8 +66,18 @@ export default function EditThisTask(props) {
       }
     }
   `;
-
+  const [deleteTask, { deletedData, loadingDelete, errorDelete }] = useMutation(DELETE_TASK);
   const [editMyTask, { data, loading, error }] = useMutation(EDIT_TASK);
+
+  const handleDelete = () => {
+    deleteTask({
+      variables: {
+        deleteTaskId: props.args.id
+      },
+      refetchQueries: () => [{ query: PROJECTS }]
+    });
+    handleClose();
+  };
 
   const handleSave = () => {
     editMyTask({
@@ -134,6 +155,9 @@ export default function EditThisTask(props) {
           </Form>
         </Modal.Body>
         <Modal.Footer>
+          <Button variant="secondary" onClick={handleDelete}>
+            Delete
+          </Button>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>

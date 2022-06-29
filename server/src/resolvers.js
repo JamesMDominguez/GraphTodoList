@@ -10,8 +10,8 @@ const resolvers = {
     getTask: async (_, { id }, { dataSources }) => {
       return dataSources.tasks.getTask(id);
     },
-    getTasks: async (_, __, { dataSources }) => {
-      return dataSources.tasks.getTasks();
+    getTasks: async (_, { id }, { dataSources }) => {
+      return dataSources.tasks.getTasks(id);
     },
   },
 
@@ -32,7 +32,7 @@ const resolvers = {
       return dataSources.projects.deleteProject(args.id)
     },
     deleteTask: async (_,args,{dataSources}) => {
-      return dataSources.task.deleteTask(args.id)
+      return dataSources.tasks.deleteTask(args.id)
     }
   },
   Project: {

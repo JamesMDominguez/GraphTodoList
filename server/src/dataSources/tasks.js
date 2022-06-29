@@ -16,12 +16,12 @@ class Tasks extends data.MongoDataSource {
 
   async editTask(args) {
     await this.model.updateOne({_id: args.id}, {$set: args})
-    return this.findOneById(args.id)
+    return await this.findOneById(args.id)
   }
 
   async deleteTask(id){
-    const task = await this.findOneById(id)
-    await this.model.deleteOne({_id: id})
+    const task = await this.findOneById(id);
+    await this.model.deleteOne({_id: id});
     return task
   }
 }

@@ -54,6 +54,20 @@ const CreateBTN = () => {
     }
   `;
 
+  const handleCreate = () => {
+    createTask({
+      variables: {
+        projectId: form.projectId,
+        summary: form.summary,
+        description: form.description,
+        priority: form.priority,
+        status: form.status,
+      },
+      refetchQueries: () => [{ query: PROJECTS,variables: {getProjectId: path} } ],
+    });
+    handleClose();
+  }
+
   function updateForm(value) {
     return setForm((prev) => {
       return { ...prev, ...value };
@@ -118,19 +132,7 @@ const CreateBTN = () => {
           </Button>
           <Button
             variant="primary"
-            onClick={() => {
-              createTask({
-                variables: {
-                  projectId: form.projectId,
-                  summary: form.summary,
-                  description: form.description,
-                  priority: form.priority,
-                  status: form.status,
-                },
-                refetchQueries: () => [{ query: PROJECTS,variables: {getProjectId: path} } ],
-              });
-              handleClose();
-            }}
+            onClick={handleCreate}
           >
             Save
           </Button>

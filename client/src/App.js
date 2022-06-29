@@ -10,7 +10,7 @@ function App() {
       <Navbar/>
       <Routes>
         <Route exact path="/" element={<Project/>} />
-        <Route path="/Task/:id" element={<Task />} />
+        <Route path="/Task/:id" element={<Task/>} />
       </Routes>
     </div>
   );
