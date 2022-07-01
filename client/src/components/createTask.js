@@ -26,6 +26,7 @@ const CreateBTN = () => {
       $description: String!
       $priority: String!
       $status: String!
+      $deleted: Boolean!
     ) {
       createTask(
         projectID: $projectId
@@ -33,6 +34,7 @@ const CreateBTN = () => {
         description: $description
         priority: $priority
         status: $status
+        deleted: $deleted
       ) {
         summary
         description
@@ -62,6 +64,7 @@ const CreateBTN = () => {
         description: form.description,
         priority: form.priority,
         status: form.status,
+        deleted: false
       },
       refetchQueries: () => [{ query: PROJECTS,variables: {getProjectId: path} } ],
     });

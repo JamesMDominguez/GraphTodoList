@@ -31,8 +31,8 @@ const resolvers = {
     deleteProject: async (_,args,{dataSources}) => {
       return dataSources.projects.deleteProject(args.id)
     },
-    deleteTask: async (_,args,{dataSources}) => {
-      return dataSources.tasks.deleteTask(args.id)
+    deleteTask: async (_,{id},{dataSources}) => {
+      return dataSources.tasks.deleteTask(id)
     }
   },
   Project: {

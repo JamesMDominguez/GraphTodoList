@@ -3,15 +3,15 @@ const data = require('apollo-datasource-mongodb')
 class Tasks extends data.MongoDataSource {
 
   async getTasks(id) {
-    return await this.model.find({projectID: id});
+    return await this.model.find({projectID: id, deleted: false});
   }
 
   async getTask(id) {
     return await this.findOneById(id);
   }
 
-  async createTask({ summary, description, priority , status , projectID }) {
-    return await this.model.create({ summary, description, priority , status , projectID});
+  async createTask({ summary, description, priority , status , projectID, deleted }) {
+    return await this.model.create({ summary, description, priority , status , projectID, deleted});
   }
 
   async editTask(args) {
@@ -20,9 +20,8 @@ class Tasks extends data.MongoDataSource {
   }
 
   async deleteTask(id){
-    const task = await this.findOneById(id);
-    await this.model.deleteOne({_id: id});
-    return task
+    await this.model.updateOne({_id: id}, {$set: {deleted: true}})
+    return await this.findOneById(id)
   }
 }
 module.exports = Tasks;

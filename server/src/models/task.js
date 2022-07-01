@@ -5,7 +5,8 @@ const Task = mongoose.model("Task", {
   description: String,
   priority: String,
   status: String,
-  projectID: String
+  projectID: String,
+  deleted: Boolean,
 });
 
 module.exports = Task;

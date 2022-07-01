@@ -2,7 +2,9 @@ import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import { useNavigate } from "react-router";
 import EditProject from "./editProject"
+
 const Project = () => {
+  
   const PROJECTS = gql`
     query GetProjects {
       getProjects {

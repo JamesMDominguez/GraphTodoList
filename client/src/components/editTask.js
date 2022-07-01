@@ -24,6 +24,7 @@ export default function EditThisTask(props) {
       $priority: String!
       $status: String!
       $editTaskId: ID!
+      $deleted: Boolean!
     ) {
       editTask(
         projectID: $projectId
@@ -32,6 +33,7 @@ export default function EditThisTask(props) {
         priority: $priority
         status: $status
         id: $editTaskId
+        deleted: $deleted
       ) {
         summary
         description
@@ -44,11 +46,11 @@ export default function EditThisTask(props) {
   `;
 
   const DELETE_TASK = gql`
-    mutation Mutation($deleteTaskId: ID!) {
+    mutation DeleteTask($deleteTaskId: ID!) {
       deleteTask(id: $deleteTaskId) {
+        summary
         description
-        priority
-        status
+        deleted
       }
     }
   `;
@@ -62,11 +64,12 @@ export default function EditThisTask(props) {
           description
           priority
           status
+          deleted
         }
       }
     }
   `;
-  const [deleteTask, { deletedData, loadingDelete, errorDelete }] = useMutation(DELETE_TASK);
+  const [deleteTask,  { data2, loading2, error2 }] = useMutation(DELETE_TASK);
   const [editMyTask, { data, loading, error }] = useMutation(EDIT_TASK);
 
   const handleDelete = () => {
@@ -74,7 +77,7 @@ export default function EditThisTask(props) {
       variables: {
         deleteTaskId: props.args.id
       },
-      refetchQueries: () => [{ query: PROJECTS }]
+      refetchQueries: () => [{ query: PROJECTS,variables: {getProjectId: props.args.projectID} } ],
     });
     handleClose();
   };
@@ -88,8 +91,9 @@ export default function EditThisTask(props) {
         priority: form.priority,
         status: form.status,
         editTaskId: props.args.id,
+        deleted: false,
       },
-      refetchQueries: () => [{ query: PROJECTS }],
+      refetchQueries: () => [{ query: PROJECTS,variables: {getProjectId: props.args.projectID} } ],
     });
     handleClose();
   };
